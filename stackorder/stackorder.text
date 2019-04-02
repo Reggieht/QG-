@@ -1,0 +1,136 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <SqStack.h>
+#define MAX_SIZE 100
+//顺序栈(基于数组的)
+
+//初始化栈
+Status initStack(SqStack *s,int maxsize)
+{
+    s->elem=(ElemType *)malloc(maxsize*sizeof(ElemType));
+    if(NULL==s->elem)
+        return ERROR;
+    s->top=-1;
+    s->size=maxsize;
+    return SUCCESS;
+}
+
+
+
+//判断栈是否为空
+Status isEmptyStack(SqStack *s)
+{
+    if(s->top==-1)
+        printf("栈已空");
+        return SUCCESS;
+}
+
+
+//得到栈顶元素
+Status getTopStack(SqStack *s,ElemType *e)
+{
+  if(s->top==-1)
+    return ERROR;
+  *e=s->elem[s->top];
+  return SUCCESS;
+}
+
+
+Status clearStack(SqStack *s)//清空栈
+{
+    while(s->top)
+    {
+    s->elem[s->top]=0;
+    s->top--;
+    }
+     return SUCCESS;
+}
+Status destroyStack(SqStack *s)//销毁栈
+{
+    clearStack(&s);
+    free(s);
+    return  SUCCESS;
+}
+Status stackLength(SqStack *s,int *length);//检测栈长度
+Status pushStack(SqStack *s,ElemType data)//入栈
+{
+   if(s->top==s->size-1)
+        return ERROR;
+   ++(s->top);
+   s->elem[s->top]=data;
+   return SUCCESS;
+}
+
+Status popStack(SqStack *s,ElemType *data)//出栈
+{
+  if(s->top==-1)
+        return ERROR;
+  *data=s->elem[s->top];
+  s->top--;
+  return SUCCESS;
+}
+
+void meus()
+{
+    printf("请选择:\n");
+    printf("1.入栈              2.出栈\n");
+    printf("3.取栈顶                  \n");
+}
+
+void functionpushStack(SqStack *s)
+{
+   ElemType data,i,n;
+   printf("请输入入栈元素个数: ");
+   scanf("%d",&n);
+   for(i=0;i<n;i++)
+   {
+       printf("请输入第%d个入栈元素\n",i+1);
+       scanf("%d",&data);
+       pushStack(s, data);
+       if(pushStack)
+            printf("%d  已成功入栈\n",data);
+       else
+       printf("%d  未成功入栈\n",data);
+   }
+}
+
+
+void functionpopStack(SqStack *s)
+{
+    ElemType data,*data_1;
+    data_1=&data;
+   for(;s->top!=-1;)
+    {
+        popStack(s,data_1);
+        printf("%d  ",data);
+    }
+
+}
+
+void functiongetTopStack(SqStack *s)
+{
+    ElemType num,*e;
+     e=&num;
+ getTopStack(s,e);
+ printf("%d",num);
+}
+
+int main()
+{
+    int temp;
+    SqStack s;
+    initStack(&s,MAX_SIZE);
+    while(1)
+    {
+        meus();
+    scanf("%d",&temp);
+    switch(temp)
+    {
+     case 1:functionpushStack(&s);break;
+     case 2:functionpopStack(&s);break;
+     case 3:functiongetTopStack(&s);break;
+     default:printf("输入错误，请重新输入\n");break;
+    }
+    }
+    return 0;
+}
